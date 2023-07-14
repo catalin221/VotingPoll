@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Extensions.Options;
+using VotinPoll.Application.DTO;
 
 namespace VotingPoll.Application.DTO
 {
@@ -10,8 +11,6 @@ namespace VotingPoll.Application.DTO
         public bool IsClosed { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<UserPollDTO>? UserPolls { get; set; }
         public List<UserOptionDTO>? UserOptions { get; set; }
-        public List<PollOptionDTO>? PollOptions { get; set; }
     }
 }

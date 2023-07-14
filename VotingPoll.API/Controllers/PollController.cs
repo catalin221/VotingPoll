@@ -1,31 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VotingPoll.Application.Services;
 using VotingPoll.Infrastructure.Database;
 
 namespace VotingPoll.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollController : Controller
+    public class PollController : ControllerBase
     {
         private readonly PollContext _context;
-        private readonly ILogger _logger;
+        private readonly PollService _pollService;
 
-        public PollController(PollContext context, ILogger<PollContext> logger)
+        public PollController(PollContext context, PollService pollService)
         {
             _context = context;
-            _logger = logger;
+            _pollService = pollService;
         }
 
         [HttpGet]
         public IActionResult GetAllPolls()
         {
-            var polls = _context.Polls.ToList();
-
-            _logger.LogInformation("Seeded data:");
-            foreach (var poll in polls)
-            {
-                _logger.LogInformation($"Poll: {poll.Id}, {poll.Title}, {poll.Description}");
-            }
+            var polls = _pollService.GetAllPolls();
 
             return Ok(polls);
         }

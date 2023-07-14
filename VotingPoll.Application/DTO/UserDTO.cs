@@ -6,7 +6,7 @@ namespace VotinPoll.Application.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public List<UserOptionDTO>? UserOptions { get; set;}
-        public List<UserPollDTO>? UserPolls { get; set;}
+        public List<UserOptionDTO>? UserOptions { get; set; }
+        public List<UserPollDTO>? UserPolls { get; set; }
     }
 }

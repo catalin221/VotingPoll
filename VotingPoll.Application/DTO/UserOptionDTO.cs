@@ -5,8 +5,8 @@ namespace VotingPoll.Application.DTO
     public class UserOptionDTO
     {
         public int UserId { get; set; }
-        public UserDTO User { get; set; }
+        public string UserName { get; set; }
         public int OptionId { get; set; }
-        public OptionDTO Option { get; set; }
+        public string OptionName { get; set; }
     }
 }

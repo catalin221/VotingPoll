@@ -1,70 +1,63 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using VotingPoll.Domain.Model;
 
 namespace VotingPoll.Infrastructure.Database
 {
     public class PollContext : DbContext
     {
-        private static ILogger _logger;
-        public PollContext(DbContextOptions<PollContext> options, ILogger<PollContext> logger) : base(options)
-        {
-            _logger = logger;
-        }
+        public PollContext(DbContextOptions<PollContext> options) : base(options) { }
         public DbSet<Option> Options { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Poll> Polls { get; set; }
-        public DbSet<UserOption> UserOptions { get; set; }
-        public DbSet<UserPoll> UserPolls { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Poll>()
+                .HasMany(p => p.Users);
+            modelBuilder.Entity<Poll>()
+                .HasMany(p => p.Options);
+            modelBuilder.Entity<Poll>()
+                .HasMany(p => p.UserOptions);
+
             modelBuilder.Entity<UserOption>(entity =>
             {
-                entity.HasKey(uo => new { uo.UserId, uo.OptionId });
+                entity.HasKey(uo => new { uo.UserId, uo.OptionId, uo.PollId });
 
                 entity.HasOne(uo => uo.User)
-                    .WithMany()
+                    .WithMany(u => u.UserOptions)
                     .HasForeignKey(uo => uo.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(uo => uo.Option)
-                    .WithMany()
+                    .WithMany(o => o.UserOptions)
                     .HasForeignKey(uo => uo.OptionId)
                     .OnDelete(DeleteBehavior.Cascade);
-            });
 
-            modelBuilder.Entity<UserPoll>(entity =>
-            {
-                entity.HasKey(up => new { up.UserId, up.PollId });
-
-                entity.HasOne(up => up.User)
-                    .WithMany()
-                    .HasForeignKey(up => up.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(up => up.Poll)
-                    .WithMany()
-                    .HasForeignKey(up => up.PollId)
+                entity.HasOne(uo => uo.Poll)
+                    .WithMany(p => p.UserOptions)
+                    .HasForeignKey(uo => uo.PollId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<UserPoll>()
+                .HasKey(up => new { up.UserId, up.PollId });
 
             modelBuilder.Entity<PollOption>(entity =>
             {
                 entity.HasKey(po => new { po.PollId, po.OptionId });
 
                 entity.HasOne(po => po.Poll)
-                    .WithMany()
+                    .WithMany(p => p.PollOptions)
                     .HasForeignKey(po => po.PollId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(po => po.Option)
-                    .WithMany()
+                    .WithMany(o => o.PollOptions)
                     .HasForeignKey(po => po.OptionId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Seed(_logger);
+            modelBuilder.Seed();
         }
     }
 }
