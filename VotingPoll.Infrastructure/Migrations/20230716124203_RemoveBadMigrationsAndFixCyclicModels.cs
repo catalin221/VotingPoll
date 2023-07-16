@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VotingPoll.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixTableReferencesFinal : Migration
+    public partial class RemoveBadMigrationsAndFixCyclicModels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,7 @@ namespace VotingPoll.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsClosed = table.Column<bool>(type: "bit", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -38,7 +38,7 @@ namespace VotingPoll.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     VotesCount = table.Column<int>(type: "int", nullable: false),
-                    PollId = table.Column<int>(type: "int", nullable: false)
+                    PollId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -47,8 +47,7 @@ namespace VotingPoll.Infrastructure.Migrations
                         name: "FK_Options_Polls_PollId",
                         column: x => x.PollId,
                         principalTable: "Polls",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -58,7 +57,7 @@ namespace VotingPoll.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PollId = table.Column<int>(type: "int", nullable: false)
+                    PollId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,8 +66,7 @@ namespace VotingPoll.Infrastructure.Migrations
                         name: "FK_Users_Polls_PollId",
                         column: x => x.PollId,
                         principalTable: "Polls",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -155,8 +153,8 @@ namespace VotingPoll.Infrastructure.Migrations
                 columns: new[] { "Id", "Description", "EndDate", "IsClosed", "StartDate", "Title" },
                 values: new object[,]
                 {
-                    { 1, "What is your favorite color?", new DateTime(2023, 7, 21, 4, 11, 40, 619, DateTimeKind.Utc).AddTicks(1464), false, new DateTime(2023, 7, 14, 4, 11, 40, 619, DateTimeKind.Utc).AddTicks(1463), "Favorite Color" },
-                    { 2, "What is your favorite animal?", new DateTime(2023, 7, 21, 4, 11, 40, 619, DateTimeKind.Utc).AddTicks(1492), false, new DateTime(2023, 7, 14, 4, 11, 40, 619, DateTimeKind.Utc).AddTicks(1492), "Favorite Animal" }
+                    { 1, "What is your favorite color?", new DateTime(2023, 7, 23, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4056), false, new DateTime(2023, 7, 16, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4054), "Favorite Color" },
+                    { 2, "What is your favorite animal?", new DateTime(2023, 7, 23, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4059), false, new DateTime(2023, 7, 16, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4059), "Favorite Animal" }
                 });
 
             migrationBuilder.InsertData(
@@ -164,8 +162,8 @@ namespace VotingPoll.Infrastructure.Migrations
                 columns: new[] { "Id", "Name", "PollId" },
                 values: new object[,]
                 {
-                    { 1, "John", 0 },
-                    { 2, "Jane", 0 }
+                    { 1, "John", null },
+                    { 2, "Jane", null }
                 });
 
             migrationBuilder.InsertData(
@@ -207,7 +205,8 @@ namespace VotingPoll.Infrastructure.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 4, 2, 2 }
+                    { 4, 2, 2 },
+                    { 5, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(

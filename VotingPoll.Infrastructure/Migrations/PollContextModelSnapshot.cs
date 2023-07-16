@@ -34,7 +34,7 @@ namespace VotingPoll.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PollId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
                     b.Property<int>("VotesCount")
@@ -117,28 +117,28 @@ namespace VotingPoll.Infrastructure.Migrations
                         {
                             Id = 1,
                             Description = "What is your favorite color?",
-                            EndDate = new DateTime(2023, 7, 21, 5, 14, 16, 447, DateTimeKind.Utc).AddTicks(6085),
+                            EndDate = new DateTime(2023, 7, 23, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4056),
                             IsClosed = false,
-                            StartDate = new DateTime(2023, 7, 14, 5, 14, 16, 447, DateTimeKind.Utc).AddTicks(6083),
+                            StartDate = new DateTime(2023, 7, 16, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4054),
                             Title = "Favorite Color"
                         },
                         new
                         {
                             Id = 2,
                             Description = "What is your favorite animal?",
-                            EndDate = new DateTime(2023, 7, 21, 5, 14, 16, 447, DateTimeKind.Utc).AddTicks(6089),
+                            EndDate = new DateTime(2023, 7, 23, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4059),
                             IsClosed = false,
-                            StartDate = new DateTime(2023, 7, 14, 5, 14, 16, 447, DateTimeKind.Utc).AddTicks(6089),
+                            StartDate = new DateTime(2023, 7, 16, 12, 42, 3, 639, DateTimeKind.Utc).AddTicks(4059),
                             Title = "Favorite Animal"
                         });
                 });
 
             modelBuilder.Entity("VotingPoll.Domain.Model.PollOption", b =>
                 {
-                    b.Property<int>("PollId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OptionId")
+                    b.Property<int?>("OptionId")
                         .HasColumnType("int");
 
                     b.HasKey("PollId", "OptionId");
@@ -187,7 +187,7 @@ namespace VotingPoll.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PollId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -200,26 +200,24 @@ namespace VotingPoll.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "John",
-                            PollId = 0
+                            Name = "John"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Jane",
-                            PollId = 0
+                            Name = "Jane"
                         });
                 });
 
             modelBuilder.Entity("VotingPoll.Domain.Model.UserOption", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OptionId")
+                    b.Property<int?>("OptionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PollId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "OptionId", "PollId");
@@ -242,15 +240,21 @@ namespace VotingPoll.Infrastructure.Migrations
                             UserId = 2,
                             OptionId = 4,
                             PollId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            OptionId = 5,
+                            PollId = 2
                         });
                 });
 
             modelBuilder.Entity("VotingPoll.Domain.Model.UserPoll", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PollId")
+                    b.Property<int?>("PollId")
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "PollId");
@@ -276,9 +280,7 @@ namespace VotingPoll.Infrastructure.Migrations
                 {
                     b.HasOne("VotingPoll.Domain.Model.Poll", "Poll")
                         .WithMany("Options")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PollId");
 
                     b.Navigation("Poll");
                 });
@@ -288,13 +290,13 @@ namespace VotingPoll.Infrastructure.Migrations
                     b.HasOne("VotingPoll.Domain.Model.Option", "Option")
                         .WithMany("PollOptions")
                         .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("VotingPoll.Domain.Model.Poll", "Poll")
                         .WithMany("PollOptions")
                         .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Option");
@@ -306,9 +308,7 @@ namespace VotingPoll.Infrastructure.Migrations
                 {
                     b.HasOne("VotingPoll.Domain.Model.Poll", "Poll")
                         .WithMany("Users")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PollId");
 
                     b.Navigation("Poll");
                 });

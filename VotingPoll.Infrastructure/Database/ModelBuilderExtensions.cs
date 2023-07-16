@@ -40,7 +40,8 @@ namespace VotingPoll.Infrastructure.Database
             var userOptions = new[]
             {
                 new UserOption { UserId = 1, OptionId = 1, PollId = 1 },
-                new UserOption { UserId = 2, OptionId = 4, PollId = 2 }
+                new UserOption { UserId = 2, OptionId = 4, PollId = 2 },
+                new UserOption { UserId = 2, OptionId = 5, PollId = 2 }
             };
 
             var pollOptions = new[]

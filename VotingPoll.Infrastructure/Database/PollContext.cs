@@ -39,8 +39,11 @@ namespace VotingPoll.Infrastructure.Database
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity<UserPoll>()
-                .HasKey(up => new { up.UserId, up.PollId });
+            modelBuilder.Entity<UserPoll>(entity =>
+            {
+                entity.HasKey(up => new { up.UserId, up.PollId });
+            });
+
 
             modelBuilder.Entity<PollOption>(entity =>
             {
@@ -49,12 +52,12 @@ namespace VotingPoll.Infrastructure.Database
                 entity.HasOne(po => po.Poll)
                     .WithMany(p => p.PollOptions)
                     .HasForeignKey(po => po.PollId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(po => po.Option)
                     .WithMany(o => o.PollOptions)
                     .HasForeignKey(po => po.OptionId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Seed();
