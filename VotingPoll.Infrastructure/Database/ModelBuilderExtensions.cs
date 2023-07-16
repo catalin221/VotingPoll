@@ -8,7 +8,7 @@ namespace VotingPoll.Infrastructure.Database
 {
     public static class ModelBuilderExtensions
     {
-        public static void Seed(this ModelBuilder modelBuilder, ILogger logger)
+        public static void Seed(this ModelBuilder modelBuilder)
         {
             var polls = new[]
             {
@@ -18,11 +18,11 @@ namespace VotingPoll.Infrastructure.Database
 
             var options = new[]
             {
-                new Option { Id = 1, Name = "Red" },
-                new Option { Id = 2, Name = "Blue" },
-                new Option { Id = 3, Name = "Green" },
-                new Option { Id = 4, Name = "Dog" },
-                new Option { Id = 5, Name = "Cat" }
+                new Option { Id = 1, Name = "Red", PollId = 1 },
+                new Option { Id = 2, Name = "Blue", PollId = 1 },
+                new Option { Id = 3, Name = "Green", PollId = 1 },
+                new Option { Id = 4, Name = "Dog" , PollId = 2 },
+                new Option { Id = 5, Name = "Cat", PollId = 2 }
             };
 
             var users = new[]
@@ -39,8 +39,9 @@ namespace VotingPoll.Infrastructure.Database
 
             var userOptions = new[]
             {
-                new UserOption { UserId = 1, OptionId = 1 },
-                new UserOption { UserId = 2, OptionId = 4 }
+                new UserOption { UserId = 1, OptionId = 1, PollId = 1 },
+                new UserOption { UserId = 2, OptionId = 4, PollId = 2 },
+                new UserOption { UserId = 2, OptionId = 5, PollId = 2 }
             };
 
             var pollOptions = new[]

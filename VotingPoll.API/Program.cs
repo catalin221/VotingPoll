@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+using VotingPoll.Application.Mapper;
+using VotingPoll.Application.Services;
 using VotingPoll.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddLogging(builder =>
 {
     builder.AddConsole();
@@ -19,10 +20,12 @@ builder.Services.AddLogging(builder =>
 
 builder.Services.AddDbContext<PollContext>(options =>
     {
-        options.UseInMemoryDatabase("Polls");
+        options.UseSqlServer(builder.Configuration.GetConnectionString("PollContext"));
         options.EnableSensitiveDataLogging();
     }
 );
+
+builder.Services.AddScoped<PollService>();
 
 var app = builder.Build();
 

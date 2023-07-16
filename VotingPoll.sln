@@ -10,9 +10,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingPoll.API", "VotingPol
 		{CAC1E5F7-32D3-432A-B57C-6EA0E1ACFE19} = {CAC1E5F7-32D3-432A-B57C-6EA0E1ACFE19}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingPoll.Application", "VotinPoll.Application\VotingPoll.Application.csproj", "{5D12388C-0B71-4B90-84B4-F9C4DDD3575A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingPoll.Application", "VotingPoll.Application\VotingPoll.Application.csproj", "{5D12388C-0B71-4B90-84B4-F9C4DDD3575A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingPoll.Infrastructure", "VotingApi.Infrastructure\VotingPoll.Infrastructure.csproj", "{353E3D06-2ADC-4263-934D-F1E085A69E52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingPoll.Infrastructure", "VotingPoll.Infrastructure\VotingPoll.Infrastructure.csproj", "{353E3D06-2ADC-4263-934D-F1E085A69E52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingPoll.Domain", "VotingPoll.Domain\VotingPoll.Domain.csproj", "{CAC1E5F7-32D3-432A-B57C-6EA0E1ACFE19}"
 EndProject
